@@ -88,7 +88,12 @@ if (mode === "어휘" || mode === "객관식") {
 else if (mode === "주관식") {
     quizAnswer.classList.remove("hide");
 
+    let count = 0;
+    quizCount.innerText = count.toString() + " / " + data.length.toString();
+
     const onAnswered = () => {
+        count++;
+        quizCount.innerText = count.toString() + " / " + data.length.toString();
         quizAnswer.value = "";
         const key = Object.keys(data)[Math.floor(Math.random() * Object.keys(data).length)];
         quizQuestion.innerText = key;
