@@ -7,11 +7,22 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    
     <div id="app">
-        <h1></h1>
+        <div class="header">
+            <button class="back"><</button>
+            <h1></h1>
+        </div>
+        
         <div class="quiz">
             <div class="quiz-question"></div>
-            <input type="text" placeholder="Answer" class="quiz-answer">
+            <input type="text" placeholder="Answer" class="quiz-answer hide">
+            <div class="quiz-select hide">
+                <button class="answer"></button>
+                <button class="answer"></button>
+                <button class="answer"></button>
+                <button class="answer"></button>
+            </div>
         </div>
     </div>
     <script src="exam.js"></script>
