@@ -50,11 +50,11 @@ if (mode === "어휘" || mode === "객관식") {
 
     const onAnswered = () => {
         count++;
-        quizCount.innerText = count.toString() + " / " + voca.length.toString();
         if (count > voca.length)
         {
             return;
         }
+        quizCount.innerText = count.toString() + " / " + voca.length.toString();
         key = Object.keys(voca)[Math.floor(Math.random() * Object.keys(voca).length)];
         while (usedKeys.includes(key)) {
             key = Object.keys(voca)[Math.floor(Math.random() * Object.keys(voca).length)];
@@ -93,6 +93,10 @@ else if (mode === "주관식") {
 
     const onAnswered = () => {
         count++;
+        if (count > data.length)
+        {
+            return;
+        }
         quizCount.innerText = count.toString() + " / " + data.length.toString();
         quizAnswer.value = "";
         const key = Object.keys(data)[Math.floor(Math.random() * Object.keys(data).length)];
