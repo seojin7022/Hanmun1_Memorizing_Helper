@@ -33,6 +33,7 @@ const quizQuestion = document.querySelector('.quiz-question');
 const quizAnswer = document.querySelector('.quiz-answer');
 const quizSelect = document.querySelector('.quiz-select');
 const quizSelectButtons = document.querySelectorAll('.quiz-select button');
+const quizCount = document.querySelector('.quiz-count');
 
 if (mode === "어휘" || mode === "객관식") {
     quizSelect.classList.remove("hide");
@@ -42,9 +43,23 @@ if (mode === "어휘" || mode === "객관식") {
         voca = data;
     }
     let key = "";
+    const usedKeys = [];
+
+    let count = 0;
+    quizCount.innerText = count.toString() + " / " + voca.length.toString();
 
     const onAnswered = () => {
+        count++;
+        quizCount.innerText = count.toString() + " / " + voca.length.toString();
+        if (count > voca.length)
+        {
+            return;
+        }
         key = Object.keys(voca)[Math.floor(Math.random() * Object.keys(voca).length)];
+        while (usedKeys.includes(key)) {
+            key = Object.keys(voca)[Math.floor(Math.random() * Object.keys(voca).length)];
+        }
+        usedKeys.push(key);
         quizQuestion.innerText = key;
         let answers = [voca[key]];
         while (answers.length < 4) {
