@@ -3,6 +3,7 @@ const chapter =  window.localStorage.getItem('Chapter');
 const mode =  window.localStorage.getItem('Mode');
 const topTitle = document.querySelector('#app h1');
 const backButton = document.querySelector('.back');
+const quizAnswerForm = document.querySelector('.quiz-answer-form');
 title.innerText = chapter + "단원 " + mode;
 topTitle.innerText = chapter + "단원 " + mode;
 
@@ -159,6 +160,9 @@ if (mode === "어휘" || mode === "객관식") {
 else if (mode === "주관식") {
     quizAnswer.classList.remove("hide");
 
+    const usedKeys = [];
+
+    let key = "";
     let count = 0;
     quizCount.innerText = count.toString() + " / " + Object.keys(data).length.toString();
 
@@ -166,19 +170,54 @@ else if (mode === "주관식") {
         count++;
         if (count > Object.keys(data).length)
         {
+            quizEnd();
             return;
         }
         quizCount.innerText = count.toString() + " / " + Object.keys(data).length.toString();
         quizAnswer.value = "";
-        const key = Object.keys(data)[Math.floor(Math.random() * Object.keys(data).length)];
+        key = Object.keys(data)[Math.floor(Math.random() * Object.keys(data).length)];
+        while (usedKeys.includes(key)) {
+            key = Object.keys(data)[Math.floor(Math.random() * Object.keys(data).length)];
+        }
+        usedKeys.push(key);
         quizQuestion.innerText = key;
         quizAnswer.innerText = data[key];
+        quizAnswer.disabled = false;
+        quizAnswer.focus();
     }
     
-    quizAnswer.addEventListener('keydown', (event) => {
-        if (event.key === "Enter" && quizAnswer.value === data[quizQuestion.innerText]) {
-            setTimeout(1000, onAnswered);
+    quizAnswerForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        if (!quizAnswer.disabled)
+        {
+            if (quizAnswer.value === data[quizQuestion.innerText]) {
+                quizAnswer.disabled = true;
+                quizAnswer.classList.add('correct');
+                setTimeout(() => quizAnswer.classList.remove('correct'), 1000);
+                setTimeout(onAnswered, 1000);
+            }
+            else if (quizAnswer.value != data[quizQuestion.innerText] && !quizAnswer.classList.contains('wrong')) {
+                quizAnswer.disabled = true;
+                quizAnswer.classList.add('wrong');
+                setTimeout(() => {
+                    quizAnswer.classList.remove('wrong');
+                    quizAnswer.disabled = false;
+                    quizAnswer.focus();
+                }, 1000);
+                if (wrongAnswer.find((value) => value['key'] == key))
+                {
+                    console.log("Wrong");
+                    wrongAnswer.find((value) => value['key'] == key)['wrongAnswer'].push(quizAnswer.value);
+                }
+                else 
+                {
+                    console.log("Wrong");
+                    wrongAnswer.push({key: key, correctAnswer: data[key], wrongAnswer: [quizAnswer.value]});
+                }
+
+            }
         }
+        
     })
     
     
