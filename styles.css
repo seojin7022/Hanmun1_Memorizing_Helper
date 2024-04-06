@@ -100,7 +100,7 @@ text-align: center;
 
 #app {
     display: flex;
-    justify-content: center;
+    justify-content:space-around;
     align-items: center;
     flex-direction: column;
     height: 50%;
@@ -131,4 +131,34 @@ text-align: center;
     font-weight: bold;
     cursor: pointer;
     border: none;
+}
+
+.quiz-select .correct {
+    transition-duration: 500ms;
+    background-color: rgb(8, 199, 56);
+    animation-duration: 500ms;
+    animation-name: bounce;
+}
+
+.quiz-select .wrong {
+    transition-duration: 500ms;
+    background-color: rgb(199, 8, 8);
+    animation-duration: 500ms;
+    animation-name: bounce;
+}
+
+@keyframes bounce {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(0.9);
+    }
+    100% {
+        transform: scale(1.1);
+    }
+}
+
+.wrong-answer li {
+    font-size: 2rem;
 }
